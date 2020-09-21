@@ -14,10 +14,6 @@ app.use(bp.json());
 
 app.use("/home", TaskRoutes);
 
-app.use((req, res, next) => {
-  res.status(404).json({ message: "Please Check URL" });
-});
-
 app.use((err, req, res, next) => {
   console.log(err);
   res
