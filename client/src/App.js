@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "./App.module.css";
 import Modal from "./UI/Modal/Modal";
 import ErrorHandler from "./ErrorHandler/ErrorHandler";
+import Spinner from "./Spinner/Spinner";
 
 class App extends React.Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class App extends React.Component {
       showStatus: false,
       selectedName: "",
       selectedStatus: 0,
+      modalLoading: false,
     };
   }
   componentDidMount() {
@@ -99,6 +101,7 @@ class App extends React.Component {
 
   submissionHandler = (e) => {
     e.persist();
+    this.setState({ modalLoading: true });
     axios
       .put(
         "/home/createtask",
@@ -139,15 +142,23 @@ class App extends React.Component {
           tasks.push(this.state.tasks[i]);
           i++;
         }
-        this.setState({ tasks: tasks, showModal: false });
+        this.setState({
+          tasks: tasks,
+          showModal: false,
+          modalLoading: false,
+          name: "",
+          priority: 0,
+          dueDate: Date.now(),
+        });
       })
       .catch((err) => {
         console.log(err);
-        this.setState({ showModal: false });
+        this.setState({ showModal: false, modalLoading: false });
       });
   };
 
   changeStatusHandler = (value) => {
+    this.setState({ modalLoading: true });
     axios
       .post(
         "/home/editstatus",
@@ -175,11 +186,11 @@ class App extends React.Component {
           }
           i++;
         }
-        this.setState({ tasks: tasks, showStatus: false });
+        this.setState({ tasks: tasks, showStatus: false, modalLoading: false });
       })
       .catch((err) => {
         console.log(err);
-        this.setState({ showStatus: false });
+        this.setState({ showStatus: false, modalLoading: false });
       });
   };
 
@@ -238,7 +249,11 @@ class App extends React.Component {
       tasks = <p className={styles.Card}>No tasks set for now!</p>;
     }
     if (this.state.loading) {
-      return <p className={styles.Card}>Loading...</p>;
+      return (
+        <p className={styles.Card}>
+          <Spinner />
+        </p>
+      );
     }
     return (
       <React.Fragment>
@@ -246,81 +261,97 @@ class App extends React.Component {
           show={this.state.showStatus}
           modalclosed={this.closeModalHandler}
         >
-          <div className={styles.StatusFields}>
-            <button
-              onClick={() => this.changeStatusHandler(0)}
-              className={[styles.StatusChange, styles.TODO].join(" ")}
-              style={{
-                display:
-                  this.state.selectedStatus === 0 ? "none" : "inline-block",
-              }}
-            >
-              TODO
-            </button>
-            <button
-              onClick={() => this.changeStatusHandler(1)}
-              className={[styles.StatusChange, styles.REVIEW].join(" ")}
-              style={{
-                display:
-                  this.state.selectedStatus === 1 ? "none" : "inline-block",
-              }}
-            >
-              <strong>REVIEW</strong>
-            </button>
-            <button
-              onClick={() => this.changeStatusHandler(2)}
-              className={[styles.StatusChange, styles.COMPLETED].join(" ")}
-              style={{
-                display:
-                  this.state.selectedStatus === 2 ? "none" : "inline-block",
-              }}
-            >
-              <strong>COMPLETED</strong>
-            </button>
-          </div>
+          {this.state.modalLoading ? (
+            <Spinner />
+          ) : (
+            <div className={styles.StatusFields}>
+              <button
+                onClick={() => this.changeStatusHandler(0)}
+                className={[styles.StatusChange, styles.TODO].join(" ")}
+                style={{
+                  display:
+                    this.state.selectedStatus === 0 ? "none" : "inline-block",
+                }}
+              >
+                TODO
+              </button>
+              <button
+                onClick={() => this.changeStatusHandler(1)}
+                className={[styles.StatusChange, styles.REVIEW].join(" ")}
+                style={{
+                  display:
+                    this.state.selectedStatus === 1 ? "none" : "inline-block",
+                }}
+              >
+                <strong>REVIEW</strong>
+              </button>
+              <button
+                onClick={() => this.changeStatusHandler(2)}
+                className={[styles.StatusChange, styles.COMPLETED].join(" ")}
+                style={{
+                  display:
+                    this.state.selectedStatus === 2 ? "none" : "inline-block",
+                }}
+              >
+                <strong>COMPLETED</strong>
+              </button>
+            </div>
+          )}
         </Modal>
         <Modal show={this.state.showModal} modalclosed={this.closeModalHandler}>
-          <div className={styles.Fields}>
-            <label htmlFor="name">Task Name</label>
-            <input
-              type="text"
-              name="name"
-              value={this.state.name}
-              onChange={this.inputChangeHandler}
-              id="name"
-            />
-          </div>
-          <div className={styles.Fields}>
-            <label htmlFor="dueDate">Due Date: </label>
-            <input
-              type="date"
-              name="dueDate"
-              value={this.getDateString(this.state.dueDate, 1)}
-              min={this.getDateString(Date.now(), 1)}
-              onChange={this.inputChangeHandler}
-              id="dueDate"
-            />
-          </div>
-          <div className={styles.Fields}>
-            <label htmlFor="priority">Priority: </label>
-            <select
-              id="priority"
-              name="priority"
-              onChange={this.inputChangeHandler}
-            >
-              <option value={0}>LOW</option>
-              <option value={1}>NORMAL</option>
-              <option value={2}>HIGH</option>
-            </select>
-          </div>
-          <div className={styles.Fields}>
-            <button className={styles.Cancel} onClick={this.closeModalHandler}>
-              <strong>CANCEL</strong>
-            </button>
-            <button className={styles.Submit} onClick={this.submissionHandler}>
-              <strong>SUBMIT</strong>
-            </button>
-          </div>
+          {this.state.modalLoading ? (
+            <Spinner />
+          ) : (
+            <React.Fragment>
+              <div className={styles.Fields}>
+                <label htmlFor="name">Task Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={this.state.name}
+                  onChange={this.inputChangeHandler}
+                  id="name"
+                />
+              </div>
+              <div className={styles.Fields}>
+                <label htmlFor="dueDate">Due Date: </label>
+                <input
+                  type="date"
+                  name="dueDate"
+                  value={this.getDateString(this.state.dueDate, 1)}
+                  min={this.getDateString(Date.now(), 1)}
+                  onChange={this.inputChangeHandler}
+                  id="dueDate"
+                />
+              </div>
+              <div className={styles.Fields}>
+                <label htmlFor="priority">Priority: </label>
+                <select
+                  id="priority"
+                  name="priority"
+                  onChange={this.inputChangeHandler}
+                >
+                  <option value={0}>LOW</option>
+                  <option value={1}>NORMAL</option>
+                  <option value={2}>HIGH</option>
+                </select>
+              </div>
+              <div className={styles.Fields}>
+                <button
+                  className={styles.Cancel}
+                  onClick={this.closeModalHandler}
+                >
+                  <strong>CANCEL</strong>
+                </button>
+                <button
+                  className={styles.Submit}
+                  onClick={this.submissionHandler}
+                >
+                  <strong>SUBMIT</strong>
+                </button>
+              </div>
+            </React.Fragment>
+          )}
         </Modal>
         <div className={styles.First}>
           <button
