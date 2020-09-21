@@ -19,6 +19,7 @@ const TaskSchema = new mongoose.Schema(
     status: {
       type: mongoose.Schema.Types.Number,
       required: true,
+      default: 0,
     },
   },
   {

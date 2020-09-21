@@ -2,9 +2,10 @@
   "name": "possibillion",
   "version": "1.0.0",
   "description": "Possibillion Assignment",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "author": "Bobbili Pawan",
   "license": "ISC",
@@ -12,6 +13,8 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.10.6"
+    "express-validator": "^6.6.1",
+    "mongoose": "^5.10.6",
+    "nodemon": "^2.0.4"
   }
 }
