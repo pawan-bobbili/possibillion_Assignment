@@ -5,7 +5,7 @@ const TaskController = require("../controller/Task");
 
 const router = express.Router();
 
-router.get("/alltasks");
+router.get("/alltasks", TaskController.getTasks);
 
 router.put(
   "/createtask",
@@ -28,6 +28,6 @@ router.put(
   TaskController.CreateTask
 );
 
-router.post("/editstatus");
+router.post("/editstatus", TaskController.editStatus);
 
 module.exports = router;

@@ -1,0 +1,11 @@
+.Success {
+  color: greenyellow;
+  font-size: 22px;
+  text-align: center;
+  border: 0;
+}
+
+.Success:hover {
+  color: green;
+  background-color: ghostwhite;
+}

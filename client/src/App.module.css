@@ -1,0 +1,143 @@
+.Card {
+  padding: 16px;
+  border: 2px solid black;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  width: 60%;
+  margin-left: 20%;
+  border-radius: 6px;
+}
+
+.Card:hover {
+  background-color: rgb(240, 235, 235);
+}
+
+.Title {
+  display: inline-block;
+  width: 70%;
+  vertical-align: middle;
+}
+
+.Status {
+  display: inline-block;
+  text-align: center;
+  width: 28%;
+  vertical-align: middle;
+  font-size: 22px;
+}
+
+.TODO {
+  color: brown;
+}
+
+.REVIEW {
+  color: orangered;
+}
+
+.COMPLETED {
+  color: green;
+}
+
+.Priority {
+  display: inline-block;
+  width: 72%;
+  font-size: 22px;
+}
+
+.changeStatus {
+  background-color: aquamarine;
+  border: 0;
+  border-radius: 8px;
+  height: 40px;
+  width: 200px;
+  white-space: nowrap;
+}
+
+.changeStatus:hover {
+  border: 1px solid gray;
+  background-color: aqua;
+  color: white;
+}
+
+.LOW {
+  color: red;
+}
+
+.NORMAL {
+  color: coral;
+}
+
+.HIGH {
+  color: chartreuse;
+}
+
+.First {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.CreateTask {
+  text-align: center;
+  display: inline-block;
+  width: 200px;
+  height: 50px;
+  white-space: nowrap;
+  background-color: blueviolet;
+  border: 0;
+  color: white;
+  border-radius: 6px;
+  font-size: 18px;
+}
+
+.CreateTask:hover {
+  border: 1px solid black;
+  background-color: rgb(161, 67, 250);
+}
+
+.Fields {
+  margin-bottom: 16px;
+}
+
+label {
+  margin-right: 8px;
+}
+
+.Cancel {
+  display: inline-block;
+  color: rgb(240, 68, 68);
+  font-size: 22px;
+  background-color: white;
+  vertical-align: middle;
+  border: 0;
+  margin-left: 8%;
+  margin-right: 50%;
+}
+
+.Cancel:hover {
+  color: red;
+}
+
+.Submit {
+  display: inline-block;
+  color: greenyellow;
+  font-size: 22px;
+  background-color: white;
+  vertical-align: middle;
+  border: 0;
+}
+
+.Submit:hover {
+  color: green;
+}
+
+.StatusFields {
+  text-align: center;
+}
+
+.StatusChange {
+  display: inline-block;
+  width: 48%;
+  margin-right: 8px;
+  vertical-align: middle;
+  background-color: white;
+}
