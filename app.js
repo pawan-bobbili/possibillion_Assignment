@@ -2,8 +2,10 @@ const express = require("express");
 const bp = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const PORT = process.env.PORT || 9000;
 
 const TaskRoutes = require("./routes/Tasks");
+const { MONGOURI } = require("./config/appkeys");
 
 const app = express();
 
@@ -24,11 +26,20 @@ app.use((err, req, res, next) => {
 });
 
 mongoose
-  .connect(
-    "mongodb+srv://node-user:Karnal18@cluster0-sgm7m.mongodb.net/possibillion?retryWrites=true&w=majority"
-  )
+  .connect(MONGOURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    app.listen(9000);
     console.log("Backend Established");
   })
   .catch((err) => console.log(err));
+
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("client/build"));
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
+app.listen(PORT, () => {
+  console.log("server is running on", PORT);
+});

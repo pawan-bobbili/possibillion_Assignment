@@ -23,7 +23,7 @@ class App extends React.Component {
   }
   componentDidMount() {
     axios
-      .get("http://localhost:9000/home/alltasks")
+      .get("/home/alltasks")
       .then((response) => {
         if (response.status !== 201 && response.status !== 200) {
           throw response.data.message;
@@ -101,7 +101,7 @@ class App extends React.Component {
     e.persist();
     axios
       .put(
-        "http://localhost:9000/home/createtask",
+        "/home/createtask",
         JSON.stringify({
           name: this.state.name,
           priority: this.state.priority,
@@ -150,7 +150,7 @@ class App extends React.Component {
   changeStatusHandler = (value) => {
     axios
       .post(
-        "http://localhost:9000/home/editstatus",
+        "/home/editstatus",
         JSON.stringify({
           name: this.state.selectedName,
           status: value,
